@@ -31,37 +31,43 @@ public class Pasarela {
     private List<Derecha> colaDerecha = new ArrayList<>();
     private List<Izquierda> colaIzquierda = new ArrayList<>();
     
-    public void entraDerecha() throws InterruptedException{
+    public Pasarela(){
+        
+    }
+    
+    public void entraDerecha(Derecha der) throws InterruptedException{
         lock.lock();
         try{
             while(personasDerecha == 3 || (personasDerecha == 2 && personasIzquierda == 0)){
                 puedePasarDerecha.await();
             }
             personasDerecha++;
+            pasarelaDer.add(der);
             puedePasarIzquierda.signal();
         }finally{
             lock.unlock();
         }
     }
     
-    public void saleDerecha() throws InterruptedException{
+    public void saleDerecha(Derecha der) throws InterruptedException{
         lock.lock();
         try{
             personasDerecha--;
-            
+            pasarelaDer.remove(der);
             puedePasarDerecha.signal();
         }finally{
             lock.unlock();
         }
     }
     
-    public void entraIzquierda() throws InterruptedException{
+    public void entraIzquierda(Izquierda izq) throws InterruptedException{
         lock.lock();
         try{
              while(personasIzquierda == 3 || (personasIzquierda == 2 && personasDerecha == 0)){
                 puedePasarIzquierda.await();
             }
             personasIzquierda++;
+            pasarelaIzq.add(izq);
             puedePasarDerecha.signal();
             
         }finally{
@@ -69,11 +75,11 @@ public class Pasarela {
         }
     }
     
-    public void saleIzquierda() throws InterruptedException{
+    public void saleIzquierda(Izquierda izq) throws InterruptedException{
         lock.lock();
         try{
             personasIzquierda--;
-            
+            pasarelaIzq.remove(izq);
             puedePasarIzquierda.signal();
         }finally{
             lock.unlock();

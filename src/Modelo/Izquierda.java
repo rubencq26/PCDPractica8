@@ -4,10 +4,40 @@
  */
 package Modelo;
 
+import Main.Generador;
+import java.util.Random;
+
 /**
  *
  * @author rubco
  */
-public class Izquierda {
+public class Izquierda implements Runnable{
+    
+    private int id;
+    
+    public Izquierda(int id){
+        this.id = id;
+    }
+    
+    
+    @Override
+    public void run(){
+        Random rd = new Random(System.nanoTime());
+        try {
+            Generador.pasarela.entraIzquierda(this);
+            //repaint
+            Thread.sleep(4000 + rd.nextInt(2000));
+            Generador.pasarela.saleIzquierda(this);
+            //repaint
+           
+        } catch (InterruptedException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+    }
+    
+    public int getIdent(){
+        return id;
+    }
     
 }
