@@ -38,9 +38,10 @@ public class Pasarela {
     public void entraDerecha(Derecha der) throws InterruptedException{
         lock.lock();
         try{
-            while(personasDerecha == 3 || (personasDerecha == 2 && personasIzquierda == 0)){
+            while(personasDerecha == 3 || (personasDerecha == 2 && personasIzquierda == 0) || colaDerecha.getFirst() != der){
                 puedePasarDerecha.await();
             }
+            colaDerecha.remove(der);
             personasDerecha++;
             pasarelaDer.add(der);
             puedePasarIzquierda.signal();
@@ -63,9 +64,10 @@ public class Pasarela {
     public void entraIzquierda(Izquierda izq) throws InterruptedException{
         lock.lock();
         try{
-             while(personasIzquierda == 3 || (personasIzquierda == 2 && personasDerecha == 0)){
+             while(personasIzquierda == 3 || (personasIzquierda == 2 && personasDerecha == 0) || colaIzquierda.getFirst() != izq){
                 puedePasarIzquierda.await();
             }
+             colaIzquierda.remove(izq);
             personasIzquierda++;
             pasarelaIzq.add(izq);
             puedePasarDerecha.signal();
@@ -85,5 +87,31 @@ public class Pasarela {
             lock.unlock();
         }
     }
+
+    public int getPersonasDerecha() {
+        return personasDerecha;
+    }
+
+    public int getPersonasIzquierda() {
+        return personasIzquierda;
+    }
+
+    public List<Derecha> getPasarelaDer() {
+        return pasarelaDer;
+    }
+
+    public List<Izquierda> getPasarelaIzq() {
+        return pasarelaIzq;
+    }
+
+    public List<Derecha> getColaDerecha() {
+        return colaDerecha;
+    }
+
+    public List<Izquierda> getColaIzquierda() {
+        return colaIzquierda;
+    }
+    
+    
     
 }
