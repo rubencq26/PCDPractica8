@@ -57,6 +57,9 @@ public class Generador {
         for(Thread h : colaHilos){
             h.join();
         }
+        
+       
+        
         System.exit(0);
     }
     

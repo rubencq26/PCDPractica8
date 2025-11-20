@@ -53,6 +53,9 @@ public class Pasarela {
     public void saleDerecha(Derecha der) throws InterruptedException{
         lock.lock();
         try{
+            while(personasDerecha==1 && personasIzquierda == 3){
+                puedePasarDerecha.await();
+            }
             personasDerecha--;
             pasarelaDer.remove(der);
             puedePasarDerecha.signal();
@@ -80,6 +83,9 @@ public class Pasarela {
     public void saleIzquierda(Izquierda izq) throws InterruptedException{
         lock.lock();
         try{
+            while(personasIzquierda == 1 && personasDerecha == 3){
+                puedePasarIzquierda.await();
+            }
             personasIzquierda--;
             pasarelaIzq.remove(izq);
             puedePasarIzquierda.signal();
