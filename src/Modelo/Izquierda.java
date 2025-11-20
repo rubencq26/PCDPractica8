@@ -25,10 +25,10 @@ public class Izquierda implements Runnable{
         Random rd = new Random(System.nanoTime());
         try {
             Generador.pasarela.entraIzquierda(this);
-            //repaint
+            Generador.repintar();
             Thread.sleep(4000 + rd.nextInt(2000));
             Generador.pasarela.saleIzquierda(this);
-            //repaint
+            Generador.repintar();
            
         } catch (InterruptedException e) {
             System.out.println("Error: " + e.getMessage());

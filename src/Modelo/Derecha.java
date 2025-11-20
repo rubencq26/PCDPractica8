@@ -25,10 +25,10 @@ public class Derecha extends Thread{
         
         try{
             Generador.pasarela.entraDerecha(this);
-            //repaint
+            Generador.repintar();
             Thread.sleep(4000 + rd.nextInt(2000));
             Generador.pasarela.saleDerecha(this);
-            //repaint
+            Generador.repintar();
         }catch(InterruptedException e){
             System.out.println("Error: " + e.getMessage());
         }
